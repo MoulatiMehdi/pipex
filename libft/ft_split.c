@@ -6,13 +6,13 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 13:17:07 by mmoulati          #+#    #+#             */
-/*   Updated: 2024/11/13 21:04:03 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/01/31 21:57:38 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static size_t	count_strs(char const *s, char c)
+static size_t	count_strs(char const *s, char *c)
 {
 	size_t	count;
 	size_t	i;
@@ -21,14 +21,14 @@ static size_t	count_strs(char const *s, char c)
 		return (0);
 	i = 0;
 	count = 0;
-	while (s[i] && s[i] == c)
+	while (s[i] && ft_strchr(c, s[i]) != NULL)
 		i++;
 	while (s[i])
 	{
-		while (s[i] && s[i] != c)
+		while (s[i] && ft_strchr(c, s[i]) == NULL)
 			i++;
 		count++;
-		while (s[i] && s[i] == c)
+		while (s[i] && ft_strchr(c, s[i]) != NULL)
 			i++;
 		if (!s[i])
 			break ;
@@ -49,17 +49,17 @@ static char	**free_all(char **strs, size_t size)
 	return (NULL);
 }
 
-static size_t	len_tocopy(char const *s, char c)
+static size_t	len_tocopy(char const *s, char *charset)
 {
 	size_t	size;
 
 	size = 0;
-	while (s[size] && s[size] != c)
+	while (s[size] && ft_strchr(charset, s[size]) == NULL)
 		size++;
 	return (size);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char *charset)
 {
 	char	**strs;
 	size_t	size;
@@ -67,17 +67,17 @@ char	**ft_split(char const *s, char c)
 
 	if (!s)
 		return (NULL);
-	strs = malloc(sizeof(char *) * (count_strs(s, c) + 1));
+	strs = malloc(sizeof(char *) * (count_strs(s, charset) + 1));
 	if (!strs)
 		return (NULL);
 	j = 0;
 	while (*s)
 	{
-		while (*s && *s == c)
+		while (*s && ft_strchr(charset, *s) != NULL)
 			s++;
 		if (!*s)
 			break ;
-		size = len_tocopy(s, c);
+		size = len_tocopy(s, charset);
 		strs[j] = ft_substr(s, 0, size);
 		if (!strs[j++])
 			return (free_all(strs, j));
