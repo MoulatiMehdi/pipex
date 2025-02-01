@@ -6,65 +6,47 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 20:08:28 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/01 11:48:40 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/01 17:45:13 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cmd.h"
+#include "libft/libft.h"
+#include <errno.h>
+#include <stdio.h>
+#include <string.h>
 
 extern char	**environ;
 
-char	*t_path_join(char *dir, char *filename)
+char	*ft_env_get(char *key)
 {
-	char	*dirname;
-	char	*cmd;
+	int	i;
+	int	size;
 
-	dirname = ft_strjoin(dir, "/");
-	cmd = ft_strjoin(dirname, filename);
-	free(dirname);
-	return (cmd);
-}
-
-char	*t_cmd_fullpath(char *name)
-{
-	int		i;
-	int		j;
-	char	*cmd;
-	char	**strs;
-
+	if (environ == NULL || key == NULL)
+		return (NULL);
 	i = 0;
+	size = ft_strlen(key);
 	while (environ[i])
 	{
-		if (ft_strncmp(environ[i], "PATH=", 5) == 0)
-		{
-			strs = ft_split(&environ[i][5], ":");
-			j = 0;
-			while (strs[j] != NULL)
-			{
-				cmd = t_path_join(strs[j], name);
-				if (access(cmd, F_OK | X_OK) == 0)
-					return (cmd);
-				free(cmd);
-				j++;
-			}
-			break ;
-		}
+		if (ft_strncmp(environ[i], key, size) == 0 && environ[i][size] == '=')
+			return (&environ[i][size + 1]);
 		i++;
 	}
 	return (NULL);
 }
 
-bool	ispath(char *str)
+void	ft_cmd_error(char *msg, char *cmd)
 {
-	int	test;
-
-	test += ft_strncmp("/", str, 1) == 0;
-	test += ft_strncmp("./", str, 2) == 0;
-	test += ft_strncmp("../", str, 3) == 0;
-	return (test > 0);
+	if (msg == NULL || cmd == NULL)
+		return ;
+	ft_putstr_fd("pipex: ", 2);
+	ft_putstr_fd(msg, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putendl_fd(cmd, 2);
 }
 
-int	t_cmd_run(char *cmd, char **envp)
+int	ft_cmd_exec(char *cmd)
 {
 	char	**strs;
 	char	*p;
@@ -72,21 +54,29 @@ int	t_cmd_run(char *cmd, char **envp)
 	if (cmd == NULL)
 		return (0);
 	strs = ft_split(cmd, " \n\t");
-	p = NULL;
-	if ()
+	if (strs == NULL)
+		return (-1);
+	p = strs[0];
+	if (!ft_ispath(strs[0]))
 	{
-		if (access(strs[0], F_OK | X_OK) == 0)
-			p = strs[0];
+		p = ft_path_cmd(strs[0]);
+		if (p == NULL)
+		{
+			ft_cmd_error("command not found", strs[0]);
+			ft_split_free(&strs);
+			return (-1);
+		}
 	}
-	else
-		p = t_cmd_fullpath(strs[0]);
-	execve(p, strs, envp);
-	perror(p);
+	execve(p, strs, NULL);
+	ft_cmd_error(strerror(errno), strs[0]);
+	ft_split_free(&strs);
 	return (0);
 }
 
 int	main(int argc, char *argv[])
 {
-	t_cmd_run(argv[1], NULL);
+	if (argc < 2)
+		return (0);
+	ft_cmd_exec(argv[1]);
 	return (EXIT_SUCCESS);
 }
