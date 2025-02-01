@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 13:17:07 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/01/31 21:57:38 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/01 12:02:34 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,20 @@ char	**ft_split(char const *s, char *charset)
 	}
 	strs[j] = NULL;
 	return (strs);
+}
+
+void	ft_split_free(char ***strs)
+{
+	int	i;
+
+	if (strs == NULL || *strs == NULL)
+		return ;
+	i = 0;
+	while ((*strs)[i])
+	{
+		free((*strs)[i]);
+		i++;
+	}
+	free(strs);
+	*strs = NULL;
 }
