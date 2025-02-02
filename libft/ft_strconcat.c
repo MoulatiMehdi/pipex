@@ -1,21 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstdelone_bonus.c                               :+:      :+:    :+:   */
+/*   ft_strconcat.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/10 13:17:03 by mmoulati          #+#    #+#             */
-/*   Updated: 2024/11/10 13:18:15 by mmoulati         ###   ########.fr       */
+/*   Created: 2025/02/02 18:29:40 by mmoulati          #+#    #+#             */
+/*   Updated: 2025/02/02 18:31:37 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstdelone(t_list *lst, void (*del)(void *))
+void	ft_strconcat(char **target, char *str)
 {
-	if (!lst || !del)
+	char	*tmp;
+
+	if (target == NULL)
 		return ;
-	(*del)(lst->content);
-	free(lst);
+	tmp = *target;
+	*target = ft_strjoin(*target, str);
+	free(tmp);
 }
