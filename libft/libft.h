@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 13:17:10 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/02 12:30:16 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/02 18:44:27 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void				ft_putchar_fd(char c, int fd);
 void				ft_putstr_fd(char *s, int fd);
 void				ft_putendl_fd(char *s, int fd);
 void				ft_putnbr_fd(int n, int fd);
+void				ft_strconcat(char **target, char *str);
 
 typedef struct s_list
 {
