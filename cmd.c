@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 20:08:28 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/02 22:02:36 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/02 22:12:35 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void	ft_cmd_error(char *msg, char *cmd, char ***strs)
 	ft_putstr_fd(msg, 2);
 	ft_putstr_fd(": ", 2);
 	ft_putendl_fd(cmd, 2);
+	if (cmd == NULL)
+		write(1, "\n", 1);
 	ft_split_free(strs);
 }
 
