@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 11:51:30 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/02 18:52:33 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/02 19:00:34 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,11 +88,4 @@ int	ft_heredoc(char *delimiter, int fd_in, int fd_out)
 	free(line);
 	free(text);
 	return (0);
-}
-
-int	main(int argc, char **argv)
-{
-	if (argc < 2)
-		return (0);
-	ft_heredoc(argv[1], 0, 1);
 }
