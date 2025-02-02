@@ -6,15 +6,15 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 20:08:28 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/01 17:45:13 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/02 22:02:36 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cmd.h"
+#include "config.h"
 #include "libft/libft.h"
-#include <errno.h>
-#include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 
 extern char	**environ;
 
@@ -36,47 +36,46 @@ char	*ft_env_get(char *key)
 	return (NULL);
 }
 
-void	ft_cmd_error(char *msg, char *cmd)
+void	ft_cmd_error(char *msg, char *cmd, char ***strs)
 {
-	if (msg == NULL || cmd == NULL)
-		return ;
-	ft_putstr_fd("pipex: ", 2);
+	ft_putstr_fd(SHELL_NAME ": ", 2);
 	ft_putstr_fd(msg, 2);
 	ft_putstr_fd(": ", 2);
 	ft_putendl_fd(cmd, 2);
+	ft_split_free(strs);
 }
 
-int	ft_cmd_exec(char *cmd)
+int	ft_cmd_exec(char *const cmd)
 {
 	char	**strs;
 	char	*p;
 
-	if (cmd == NULL)
-		return (0);
 	strs = ft_split(cmd, " \n\t");
-	if (strs == NULL)
+	if (strs == NULL || cmd == NULL)
 		return (-1);
 	p = strs[0];
-	if (!ft_ispath(strs[0]))
+	if (!ft_ispath(p))
 	{
-		p = ft_path_cmd(strs[0]);
+		p = ft_path_cmd(p);
 		if (p == NULL)
 		{
-			ft_cmd_error("command not found", strs[0]);
-			ft_split_free(&strs);
-			return (-1);
+			ft_cmd_error("command not found", strs[0], &strs);
+			return (127);
 		}
 	}
+	else if (ft_path_isdir(p))
+	{
+		ft_cmd_error(p, strerror(21), &strs);
+		return (21);
+	}
 	execve(p, strs, NULL);
-	ft_cmd_error(strerror(errno), strs[0]);
-	ft_split_free(&strs);
-	return (0);
+	ft_cmd_error(strerror(errno), strs[0], &strs);
+	return (errno);
 }
 
 int	main(int argc, char *argv[])
 {
 	if (argc < 2)
 		return (0);
-	ft_cmd_exec(argv[1]);
-	return (EXIT_SUCCESS);
+	return (ft_cmd_exec(argv[1]));
 }

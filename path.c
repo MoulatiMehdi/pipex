@@ -6,25 +6,43 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 16:32:17 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/01 16:39:53 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/02 22:02:27 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "cmd.h"
+#include "libft/libft.h"
+#include <unistd.h>
 
 bool	ft_ispath(char *str)
 {
-	return (ft_strchr(str, '/'));
+	if (str == NULL)
+		return (0);
+	return (ft_strchr(str, '/') != NULL);
 }
 
 char	*ft_path_join(char *dir, char *filename)
 {
-	char	*dirname;
-	char	*cmd;
+	char	*fullpath;
 
-	dirname = ft_strjoin(dir, "/");
-	cmd = ft_strjoin(dirname, filename);
-	free(dirname);
-	return (cmd);
+	fullpath = ft_strjoin(dir, "/");
+	ft_strconcat(&fullpath, filename);
+	return (fullpath);
+}
+
+int	ft_path_isdir(char *path)
+{
+	char	*test_path;
+	int		ans;
+
+	if (path == 0)
+		return (-1);
+	test_path = ft_strjoin(path, "/");
+	if (!test_path)
+		return (0);
+	errno = 0;
+	ans = access(test_path, F_OK);
+	free(test_path);
+	return (ans == 0);
 }
 
 char	*ft_path_cmd(char *filename)
@@ -34,6 +52,8 @@ char	*ft_path_cmd(char *filename)
 	char	*fullpath;
 	int		i;
 
+	if (filename == NULL || ft_path_isdir(filename))
+		return (NULL);
 	fullpath = NULL;
 	path_dirs = ft_split(ft_env_get("PATH"), ":");
 	if (path_dirs == NULL)
