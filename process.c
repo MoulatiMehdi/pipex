@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 16:51:22 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/03 18:45:14 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/04 00:37:53 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ pid_t	t_process_childs(int **pipes, int *fds, unsigned int size)
 			if (i == size - 1)
 				dup2(fds[1], STDOUT_FILENO);
 			t_fds_close(fds);
-			execve(g_cmd[i][0], g_cmd[i], NULL);
 			t_pipes_close(pipes);
+			execve(g_cmd[i][0], g_cmd[i], NULL);
 			perror(SHELL_NAME);
 			exit(errno);
 		}

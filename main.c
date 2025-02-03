@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 17:59:16 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/03 18:26:10 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/04 00:38:12 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	*g_cmd[][4] = {
 	{"/bin/cat", NULL},
-	{"/bin/grep", NULL},
-	{"/bin/ls", "-l", NULL},
+	{"/bin/cat", "-e", NULL},
+	{"/bin/grep", "_", NULL},
 };
 
 int	*t_redirect_new(char *in_file, char *out_file, bool append)
@@ -42,8 +42,6 @@ int	*t_redirect_new(char *in_file, char *out_file, bool append)
 		t_fds_clear(&fds);
 		return (NULL);
 	}
-	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
 	return (fds);
 }
 
