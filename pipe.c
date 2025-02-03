@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 19:55:29 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/02 10:50:14 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/03 18:55:14 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipe.h"
@@ -16,21 +16,21 @@ int	*t_pipe_new(void)
 {
 	int	*fds;
 
-	fds = malloc(sizeof(int) * 2);
-	if (!fds)
+	fds = t_fds_new();
+	if (fds == NULL)
 		return (NULL);
 	if (pipe(fds) < 0)
 	{
-		perror("pipe");
-		return (NULL);
+		free(fds);
+		fds = NULL;
 	}
 	return (fds);
 }
 
 int	**t_pipes_new(unsigned int n)
 {
-	int	**pipes;
-	int	i;
+	int				**pipes;
+	unsigned int	i;
 
 	if (n == 0)
 		return (NULL);
@@ -44,7 +44,8 @@ int	**t_pipes_new(unsigned int n)
 		if (pipes[i] == NULL)
 		{
 			while (i--)
-				free(pipes[i]);
+				t_fds_clear(&pipes[i]);
+			free(pipes);
 			return (NULL);
 		}
 		i++;
@@ -70,8 +71,7 @@ void	t_pipes_close(int **pipes)
 
 void	t_pipes_set(int **pipes, unsigned int idx)
 {
-	int				i;
-	unsigned int	size;
+	int	i;
 
 	if (pipes == NULL || pipes[0] == NULL)
 		return ;
@@ -90,7 +90,7 @@ void	t_pipes_set(int **pipes, unsigned int idx)
 	}
 }
 
-void	t_pipes_free(int ***pipes)
+void	t_pipes_clear(int ***pipes)
 {
 	unsigned int	i;
 
@@ -99,7 +99,7 @@ void	t_pipes_free(int ***pipes)
 		return ;
 	while ((*pipes)[i])
 	{
-		free((*pipes)[i]);
+		t_fds_clear(&(*pipes)[i]);
 		i++;
 	}
 	free(*pipes);
