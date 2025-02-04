@@ -6,10 +6,11 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 22:17:17 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/04 12:28:00 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/04 20:56:09 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/libft.h"
 #include <errno.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -17,77 +18,124 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-char	*g_cmd[][4] = {
-	{"/bin/cat", NULL},
-	{"/bin/cat", "-e", NULL},
-	{"/bin/grep", "_", NULL},
-};
-
-void	print_pipe(char *name, int *curr)
+void	t_process_first(char *cmd, char *filename, int fds[2])
 {
-	fprintf(stderr, "%6s:\t in : %d out: %d\n", name, curr[0], curr[1]);
+	pid_t	pid;
+	int		read_fd;
+	char	**strs;
+
+	pid = fork();
+	if (pid > 0)
+		return ;
+	if (pid < 0)
+	{
+		perror("fork");
+		exit(errno);
+	}
+	if (filename)
+	{
+		read_fd = open(filename, O_RDONLY);
+		if (read_fd < 0)
+		{
+			perror(filename);
+			exit(errno);
+		}
+		dup2(read_fd, STDIN_FILENO);
+		close(read_fd);
+	}
+	dup2(fds[1], STDOUT_FILENO);
+	close(fds[1]);
+	close(fds[0]);
+	strs = ft_split(cmd, " \n\t");
+	execve(strs[0], strs, NULL);
+	perror(strs[0]);
+	ft_split_free(&strs);
+	exit(errno);
 }
 
-void	debug(int *pprev, int *prev, int *curr, int chid)
+void	t_process_last(char *cmd, char *filename, int read_in)
 {
-	fprintf(stderr, "Childs %d\n", chid);
-	print_pipe("pprev", pprev);
-	print_pipe("prev", prev);
-	print_pipe("curr", curr);
+	pid_t	pid;
+	int		out_fd;
+	char	**strs;
+
+	pid = fork();
+	if (pid > 0)
+		return ;
+	if (pid < 0)
+	{
+		perror("fork");
+		exit(errno);
+	}
+	dup2(read_in, STDIN_FILENO);
+	close(read_in);
+	if (filename)
+	{
+		out_fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC);
+		if (out_fd < 0)
+		{
+			perror(filename);
+			exit(errno);
+		}
+		dup2(out_fd, STDIN_FILENO);
+		close(out_fd);
+	}
+	strs = ft_split(cmd, " \n\t");
+	execve(strs[0], strs, NULL);
+	perror(strs[0]);
+	ft_split_free(&strs);
+	exit(errno);
 }
-
-int		g_size = sizeof(g_cmd) / sizeof(g_cmd[0]);
-
 int	main(int argc, char *argv[])
 {
-	int		i;
+	int		fds[2];
+	int		read_fd;
 	pid_t	pid;
-	int		pipes[g_size][2];
-	int		j;
+	int		i;
+	char	**strs;
 
-	i = 0;
-	while (i < g_size - 1)
+	i = 1;
+	while (i < argc)
 	{
-		pipe(pipes[i]);
-		i++;
-	}
-	i = 0;
-	while (i < g_size)
-	{
-		pid = fork();
-		if (i < 0)
+		if (i < argc - 1 && pipe(fds) < 0)
 		{
-			perror("fork");
+			perror("pipe");
+			exit(errno);
+		}
+		pid = fork();
+		if (pid < 0)
+		{
+			perror("pipe");
 			exit(errno);
 		}
 		else if (pid == 0)
 		{
 			if (i != 0)
-				dup2(pipes[i - 1][0], STDIN_FILENO);
-			if (i != g_size - 1)
-				dup2(pipes[i][1], STDOUT_FILENO);
-			j = 0;
-			while (j < g_size - 1)
 			{
-				close(pipes[j][0]);
-				close(pipes[j][1]);
-				j++;
+				dup2(read_fd, STDIN_FILENO);
+				close(read_fd);
 			}
-			execve(g_cmd[i][0], g_cmd[i], 0);
-			perror("execve");
+			if (i != argc - 1)
+			{
+				dup2(fds[1], STDOUT_FILENO);
+			}
+			close(fds[1]);
+			close(fds[0]);
+			strs = ft_split(argv[i], " \n\t");
+			execve(strs[0], strs, NULL);
+			perror(strs[0]);
+			ft_split_free(&strs);
 			exit(errno);
 		}
+		close(fds[1]);
+		close(read_fd);
+		read_fd = fds[0];
 		i++;
 	}
-	i = 0;
-	while (i < g_size - 1)
-	{
-		close(pipes[i][0]);
-		close(pipes[i][1]);
-		i++;
-	}
-	i = 0;
-	while (i < g_size)
-		wait(NULL);
-	return (0);
+	close(read_fd);
+	close(fds[0]);
+	close(fds[1]);
+	while (wait(NULL) > 0)
+		; //////////////////////////////until false
+	return (EXIT_SUCCESS);
 }
