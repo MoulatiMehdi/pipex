@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 22:17:17 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/04 00:34:00 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/04 12:28:00 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,78 +23,71 @@ char	*g_cmd[][4] = {
 	{"/bin/grep", "_", NULL},
 };
 
+void	print_pipe(char *name, int *curr)
+{
+	fprintf(stderr, "%6s:\t in : %d out: %d\n", name, curr[0], curr[1]);
+}
+
+void	debug(int *pprev, int *prev, int *curr, int chid)
+{
+	fprintf(stderr, "Childs %d\n", chid);
+	print_pipe("pprev", pprev);
+	print_pipe("prev", prev);
+	print_pipe("curr", curr);
+}
+
 int		g_size = sizeof(g_cmd) / sizeof(g_cmd[0]);
 
 int	main(int argc, char *argv[])
 {
 	int		i;
-	int		fd_in;
-	int		pipefd[2];
 	pid_t	pid;
+	int		pipes[g_size][2];
+	int		j;
 
 	i = 0;
-	fd_in = dup(STDIN_FILENO);
+	while (i < g_size - 1)
+	{
+		pipe(pipes[i]);
+		i++;
+	}
+	i = 0;
 	while (i < g_size)
 	{
-		if (pipe(pipefd) == -1)
-		{
-			perror("pipe");
-			return (errno);
-		}
 		pid = fork();
-		if (pid == -1)
+		if (i < 0)
 		{
 			perror("fork");
-			return (errno);
+			exit(errno);
 		}
 		else if (pid == 0)
 		{
-			if (i > 0)
+			if (i != 0)
+				dup2(pipes[i - 1][0], STDIN_FILENO);
+			if (i != g_size - 1)
+				dup2(pipes[i][1], STDOUT_FILENO);
+			j = 0;
+			while (j < g_size - 1)
 			{
-				if (dup2(fd_in, STDIN_FILENO) < 0)
-				{
-					fprintf(stderr, "Child %d : ", i);
-					perror("dup2 in");
-					fprintf(stderr, "%d %d\n", fd_in, STDIN_FILENO);
-					return (errno);
-				}
+				close(pipes[j][0]);
+				close(pipes[j][1]);
+				j++;
 			}
-			else
-			{
-				if (close(pipefd[0]) < 0)
-				{
-					perror("close");
-				}
-			}
-			if (i < g_size - 1)
-			{
-				if (dup2(pipefd[1], STDOUT_FILENO) < 0)
-				{
-					fprintf(stderr, "Child %d : ", i);
-					perror("dup2 out");
-					fprintf(stderr, "%d %d\n", pipefd[1], STDOUT_FILENO);
-					return (errno);
-				}
-				close(pipefd[1]);
-			}
-			fprintf(stderr, "Childs %d\nfd_in : %d pipefd[0]:%d pipefd[1]:%d\n",
-				i, fd_in, pipefd[0], pipefd[1]);
-			execve(g_cmd[i][0], g_cmd[i], NULL);
-			close(fd_in);
+			execve(g_cmd[i][0], g_cmd[i], 0);
 			perror("execve");
 			exit(errno);
 		}
-		close(pipefd[1]);
-		close(fd_in);
-		fd_in = pipefd[0];
 		i++;
 	}
-	close(fd_in);
+	i = 0;
+	while (i < g_size - 1)
+	{
+		close(pipes[i][0]);
+		close(pipes[i][1]);
+		i++;
+	}
 	i = 0;
 	while (i < g_size)
-	{
 		wait(NULL);
-		i++;
-	}
-	return (EXIT_SUCCESS);
+	return (0);
 }
