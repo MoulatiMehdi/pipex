@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 14:58:36 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/02 15:04:19 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/05 22:42:39 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,5 @@
 
 # define SHELL_NAME "pipex"
 # define PROMPT_HERE_DOC ">"
-
+# define ARGS_SEPERATOR " \t"
 #endif
