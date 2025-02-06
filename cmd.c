@@ -6,72 +6,54 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 20:08:28 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/02 22:12:35 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/06 22:05:57 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cmd.h"
-#include "config.h"
 #include "libft/libft.h"
-#include <string.h>
-#include <unistd.h>
 
-extern char	**environ;
-
-char	*ft_env_get(char *key)
+int	ft_path_exec(char **strs)
 {
-	int	i;
-	int	size;
+	char	*fullpath;
+	int		status;
 
-	if (environ == NULL || key == NULL)
-		return (NULL);
-	i = 0;
-	size = ft_strlen(key);
-	while (environ[i])
+	fullpath = ft_path_cmd(strs[0]);
+	if (fullpath == NULL)
 	{
-		if (ft_strncmp(environ[i], key, size) == 0 && environ[i][size] == '=')
-			return (&environ[i][size + 1]);
-		i++;
+		ft_shell_error("command not found", strs[0]);
+		return (errno = 127);
 	}
-	return (NULL);
-}
-
-void	ft_cmd_error(char *msg, char *cmd, char ***strs)
-{
-	ft_putstr_fd(SHELL_NAME ": ", 2);
-	ft_putstr_fd(msg, 2);
-	ft_putstr_fd(": ", 2);
-	ft_putendl_fd(cmd, 2);
-	if (cmd == NULL)
-		write(1, "\n", 1);
-	ft_split_free(strs);
+	execve(fullpath, strs, NULL);
+	status = errno;
+	ft_shell_error(strerror(status), strs[0]);
+	free(fullpath);
+	return (errno = status);
 }
 
 int	ft_cmd_exec(char *const cmd)
 {
 	char	**strs;
-	char	*p;
+	int		status;
 
-	strs = ft_split(cmd, " \n\t");
-	if (strs == NULL || cmd == NULL)
+	strs = ft_split(cmd, ARGS_SEPERATOR);
+	if (strs == NULL)
 		return (-1);
-	p = strs[0];
-	if (!ft_ispath(p))
+	if (ft_strchr(strs[0], '/') == NULL)
 	{
-		p = ft_path_cmd(p);
-		if (p == NULL)
-		{
-			ft_cmd_error("command not found", strs[0], &strs);
-			return (127);
-		}
+		ft_path_exec(strs);
 	}
-	else if (ft_path_isdir(p))
+	else if (ft_path_isdir(strs[0]))
 	{
-		ft_cmd_error(p, strerror(21), &strs);
-		return (21);
+		ft_shell_error(strs[0], strerror(21));
+		errno = 21;
 	}
-	execve(p, strs, NULL);
-	ft_cmd_error(strerror(errno), strs[0], &strs);
+	else
+	{
+		execve(strs[0], strs, NULL);
+		ft_shell_error(strerror(errno), strs[0]);
+	}
+	ft_split_free(&strs);
 	return (errno);
 }
 
