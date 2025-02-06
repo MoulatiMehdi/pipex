@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 16:14:09 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/06 18:52:49 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/06 19:42:08 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "error.h"
@@ -35,4 +35,18 @@ int	ft_shell_perror(char *str)
 		return (errno);
 	ft_shell_error(strerror(status), str);
 	return (errno);
+}
+
+int	ft_shell_code(int wstate)
+{
+	int	code;
+
+	code = 0;
+	if ((wstate & 0x7f) == 0)
+		code = ((wstate & 0xff00) >> 8);
+	else if (((signed char)((wstate & 0x7f) + 1) >> 1) > 0)
+		code = ((wstate & 0x7f) + 128);
+	else if ((wstate & 0xff) == 0x7f)
+		code = (((wstate & 0xff00) >> 8) + 128);
+	return (code);
 }
