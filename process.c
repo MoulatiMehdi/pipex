@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 22:18:55 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/05 23:44:30 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/06 19:45:53 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,26 +61,25 @@ void	t_process_middle(char *cmd, int *fds, int read_fd)
 
 int	t_process_wait(pid_t pid_last, unsigned int n)
 {
-	int		exit_code;
 	int		wstate;
+	int		wstate_last;
 	pid_t	pid;
 
-	wstate = 0;
+	wstate_last = 0;
 	while (n)
 	{
 		pid = wait(&wstate);
 		if (pid == pid_last)
-			exit_code = WEXITSTATUS(wstate);
+			wstate_last = wstate;
 		n--;
 	}
-	return (exit_code);
+	return (ft_shell_code(wstate_last));
 }
 
 void	t_process_first(char *cmd, char *filename, int pipefd[2])
 {
 	pid_t	pid;
 	int		fd;
-	char	**str;
 
 	if (pipe(pipefd) < 0)
 	{
