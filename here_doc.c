@@ -6,15 +6,13 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 11:51:30 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/02 19:00:34 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/07 18:18:16 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "config.h"
 #include "libft/libft.h"
 #include <errno.h>
-#include <stdio.h>
-#include <string.h>
 
 static int	ft_heredoc_warn(char *delimiter)
 {
@@ -35,14 +33,14 @@ static int	ft_heredoc_iseof(char *eof, char *p, int n)
 	return (ft_strncmp(p, eof, n) == 0 && p[n] == '\n' && p[n + 1] == '\0');
 }
 
-char	*ft_heredoc_getline(char *delimiter, int fd)
+static char	*ft_heredoc_getline(char *delimiter, int fd)
 {
 	char	*line;
 	char	*tmp;
 	char	*p;
 
 	line = NULL;
-	ft_putstr_fd(PROMPT_HERE_DOC, 1);
+	ft_putstr_fd(PROMPT_HERE_DOC, 2);
 	while (1)
 	{
 		errno = 0;
