@@ -6,11 +6,13 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 20:08:28 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/08 17:58:44 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/08 19:44:19 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
+
+extern char	**environ;
 
 int	ft_path_exec(char **strs)
 {
@@ -23,7 +25,7 @@ int	ft_path_exec(char **strs)
 		ft_shell_error(strs[0], "command not found");
 		return (errno = 127);
 	}
-	execve(fullpath, strs, NULL);
+	execve(fullpath, strs, environ);
 	status = errno;
 	ft_shell_error(strerror(status), strs[0]);
 	free(fullpath);
@@ -46,7 +48,7 @@ int	ft_cmd_exec(char *const cmd)
 	}
 	else
 	{
-		execve(strs[0], strs, NULL);
+		execve(strs[0], strs, environ);
 		ft_shell_error(strs[0], strerror(errno));
 		errno = 126;
 	}
