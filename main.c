@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 22:17:17 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/08 20:55:43 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/08 21:34:19 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	main(int argc, char *argv[])
 	if (argc != 5)
 	{
 		ft_putendl_fd("Usage : ./pipex file cmd1 cmd2 file", 2);
-		return (0);
+		return (1);
 	}
 	t_process_first(argv[2], argv[1], fds);
 	close(fds[1]);
