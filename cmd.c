@@ -6,15 +6,11 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 20:08:28 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/08 20:29:28 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/08 20:31:19 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cmd.h"
-#include "libft/libft.h"
-#include <unistd.h>
-
-extern char	**environ;
+#include "pipex.h"
 
 int	ft_path_exec(char **strs)
 {

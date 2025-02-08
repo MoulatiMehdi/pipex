@@ -6,11 +6,19 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 16:14:09 by mmoulati          #+#    #+#             */
+<<<<<<< Updated upstream
 /*   Updated: 2025/02/08 20:27:23 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "error.h"
+=======
+/*   Updated: 2025/02/08 20:15:48 by mmoulati         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "pipex.h"
+>>>>>>> Stashed changes
 
 void	ft_shell_error(char *str1, char *str2)
 {

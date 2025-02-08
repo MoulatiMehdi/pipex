@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 22:18:55 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/06 19:45:53 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/08 20:16:00 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ pid_t	t_process_last(char *cmd, char *filename, int fd_in)
 		fd = t_redirect_new(filename, FILE_WRITE_TRUNCT);
 	dup2(fd_in, STDIN_FILENO);
 	close(fd_in);
-	t_cmd_exec(cmd);
+	ft_cmd_exec(cmd);
 	return (pid);
 }
 
@@ -55,7 +55,7 @@ void	t_process_middle(char *cmd, int *fds, int read_fd)
 		close(read_fd);
 		close(fds[1]);
 		close(fds[0]);
-		t_cmd_exec(cmd);
+		ft_cmd_exec(cmd);
 	}
 }
 
@@ -99,5 +99,5 @@ void	t_process_first(char *cmd, char *filename, int pipefd[2])
 	dup2(pipefd[1], STDOUT_FILENO);
 	close(pipefd[1]);
 	close(pipefd[0]);
-	t_cmd_exec(cmd);
+	ft_cmd_exec(cmd);
 }
