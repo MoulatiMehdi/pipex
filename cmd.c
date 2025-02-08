@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 20:08:28 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/08 20:09:23 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/08 20:10:43 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,4 @@ int	ft_cmd_exec(char *const cmd)
 	}
 	ft_split_free(&strs);
 	return (errno);
-}
-
-int	main(int argc, char *argv[])
-{
-	if (argc < 2)
-		return (0);
-	return (ft_cmd_exec(argv[1]));
 }
