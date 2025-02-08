@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 22:17:17 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/08 20:04:15 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/08 20:55:43 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ int	main(int argc, char *argv[])
 	t_process_first(argv[2], argv[1], fds);
 	close(fds[1]);
 	read_fd = fds[0];
-	pid = t_process_last(argv[argc - 2], argv[argc - 1], read_fd);
+	pid = t_process_last(argv[argc - 2], argv[argc - 1], read_fd,
+			FILE_WRITE_TRUNCT);
 	close(read_fd);
 	return (t_process_wait(pid, argc - 3));
 }

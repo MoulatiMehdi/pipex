@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 22:17:17 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/08 20:16:35 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/08 20:54:58 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PIPEX_H
@@ -40,7 +40,7 @@ int			ft_cmd_exec(char *cmd);
 
 int			t_process_wait(pid_t pid_last, unsigned int n);
 void		t_process_middle(char *cmd, int *fds, int read_fd);
-pid_t		t_process_last(char *cmd, char *filename, int fd_in);
+pid_t		t_process_last(char *cmd, char *filename, int fd_in, t_mode mode);
 void		t_process_first(char *cmd, char *filename, int pipefd[2]);
 
 int			ft_path_isdir(char *path);

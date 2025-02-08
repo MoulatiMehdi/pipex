@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 20:08:28 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/08 20:36:33 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/08 20:55:07 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	ft_path_exec(char **strs)
 int	ft_cmd_exec(char *const cmd)
 {
 	char	**strs;
-	int		status;
 
 	strs = ft_split(cmd, ARGS_SEPERATOR);
 	if (strs == NULL)
@@ -52,5 +51,5 @@ int	ft_cmd_exec(char *const cmd)
 		errno = 126;
 	}
 	ft_split_free(&strs);
-	return (errno);
+	exit(errno);
 }

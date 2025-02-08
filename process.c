@@ -6,13 +6,13 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 22:18:55 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/08 20:16:00 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/08 20:54:36 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-pid_t	t_process_last(char *cmd, char *filename, int fd_in)
+pid_t	t_process_last(char *cmd, char *filename, int fd_in, t_mode mode)
 {
 	pid_t	pid;
 	int		fd;
@@ -26,7 +26,7 @@ pid_t	t_process_last(char *cmd, char *filename, int fd_in)
 	if (pid > 0)
 		return (pid);
 	if (filename)
-		fd = t_redirect_new(filename, FILE_WRITE_TRUNCT);
+		fd = t_redirect_new(filename, mode);
 	dup2(fd_in, STDIN_FILENO);
 	close(fd_in);
 	ft_cmd_exec(cmd);
