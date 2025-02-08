@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   here_doc.c                                         :+:      :+:    :+:   */
+/*   here_doc_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 11:51:30 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/08 13:29:57 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/08 17:52:16 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,9 @@ static int	ft_heredoc_iseof(char *eof, char *p, int n)
 	return (ft_strncmp(p, eof, n) == 0 && p[n] == '\n' && p[n + 1] == '\0');
 }
 
-static char	*ft_heredoc_getline(char *delimiter, int fd)
+static char	*ft_heredoc_getline(int fd)
 {
 	char	*line;
-	char	*tmp;
 	char	*p;
 
 	line = NULL;
@@ -69,7 +68,7 @@ char	*ft_heredoc(char *delimiter, int fd_in)
 	size = ft_strlen(delimiter);
 	while (1)
 	{
-		line = ft_heredoc_getline(delimiter, fd_in);
+		line = ft_heredoc_getline(fd_in);
 		if (delimiter && !line)
 		{
 			ft_heredoc_warn(delimiter);
