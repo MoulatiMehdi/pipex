@@ -6,13 +6,11 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 11:51:30 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/07 18:18:16 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/08 13:29:57 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "config.h"
-#include "libft/libft.h"
-#include <errno.h>
+#include "pipex_bonus.h"
 
 static int	ft_heredoc_warn(char *delimiter)
 {
@@ -59,14 +57,14 @@ static char	*ft_heredoc_getline(char *delimiter, int fd)
 	return (line);
 }
 
-int	ft_heredoc(char *delimiter, int fd_in, int fd_out)
+char	*ft_heredoc(char *delimiter, int fd_in)
 {
 	char	*line;
 	char	*text;
 	int		size;
 
 	if (delimiter == NULL)
-		return (1);
+		return (NULL);
 	text = NULL;
 	size = ft_strlen(delimiter);
 	while (1)
@@ -82,8 +80,6 @@ int	ft_heredoc(char *delimiter, int fd_in, int fd_out)
 		ft_strconcat(&text, line);
 		free(line);
 	}
-	ft_putstr_fd(text, fd_out);
 	free(line);
-	free(text);
-	return (0);
+	return (text);
 }

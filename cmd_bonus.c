@@ -6,13 +6,11 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 20:08:28 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/07 16:34:19 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/08 11:59:08 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cmd.h"
-#include "libft/libft.h"
-#include <unistd.h>
+#include "pipex_bonus.h"
 
 int	ft_path_exec(char **strs)
 {
@@ -55,11 +53,4 @@ int	ft_cmd_exec(char *const cmd)
 	}
 	ft_split_free(&strs);
 	return (errno);
-}
-
-int	main(int argc, char *argv[])
-{
-	if (argc < 2)
-		return (0);
-	return (ft_cmd_exec(argv[1]));
 }

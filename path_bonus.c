@@ -6,13 +6,13 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 16:32:17 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/06 21:31:22 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/08 11:57:30 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "cmd.h"
-#include "libft/libft.h"
 
-char	*ft_path_join(char *dir, char *filename)
+#include "pipex_bonus.h"
+
+static char	*ft_path_join(char *dir, char *filename)
 {
 	char	*fullpath;
 
