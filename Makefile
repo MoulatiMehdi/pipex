@@ -10,16 +10,14 @@ OBJS_B = $(SRCS_B:.c=.o)
 NAME = pipex 
 LIBFT = libft/libft.a
 
-.PHONY : re clean fclean all bonus 
-.FEATURES = 'target-specific'
 
 all : $(NAME) 
 
-bonus : $(NAME)  
-
+bonus : $(OBJS_B)  
+	$(CC) $(CCFLAGS) $? -lft -Llibft -o $(NAME)	
 
 $(NAME) :  $(LIBFT) $(OBJS_M) 	
-	$(CC) $(CCFLAGS) $(OBJS) -lft -Llibft -o $@	
+	$(CC) $(CCFLAGS) $(OBJS_M) -lft -Llibft -o $@	
 
 $(LIBFT) : 
 	make -C libft
@@ -28,9 +26,10 @@ $(LIBFT) :
 	$(CC) $(CCFLAGS) -c $< -o $@
 
 clean : 
-	rm -rf $(OBJS)
+	rm -rf $(OBJS_B) $(OBJS_M)
 fclean : clean
 	rm -rf $(NAME)
 
-re : fclean all
+re : fclean all 
 
+.PHONY : re clean fclean all bonus 
