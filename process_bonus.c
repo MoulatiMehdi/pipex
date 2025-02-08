@@ -6,13 +6,11 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 22:18:55 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/08 17:45:16 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/08 20:40:16 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
 #include "pipex_bonus.h"
-#include <unistd.h>
 
 pid_t	t_process_last(char *cmd, char *filename, int fd_in, t_mode mode)
 {

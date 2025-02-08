@@ -6,13 +6,11 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 20:08:28 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/08 19:44:19 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/08 20:39:57 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
-
-extern char	**environ;
 
 int	ft_path_exec(char **strs)
 {

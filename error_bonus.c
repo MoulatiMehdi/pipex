@@ -6,12 +6,11 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 16:14:09 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/08 19:59:06 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/08 20:40:00 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
-#include <sys/wait.h>
 
 void	ft_shell_error(char *str1, char *str2)
 {
