@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 22:18:55 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/08 20:40:16 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/08 20:51:42 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,3 @@ void	t_process_first(char *cmd, char *filename, int pipefd[2])
 	close(pipefd[0]);
 	ft_cmd_exec(cmd);
 }
-
-/*void	t_process_first_heredoc(char *cmd, char *delimiter, int pipefd[2])*/
-/*{*/
-/*}*/
