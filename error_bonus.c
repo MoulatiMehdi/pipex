@@ -6,11 +6,12 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 16:14:09 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/08 11:55:20 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/08 19:59:06 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
+#include <sys/wait.h>
 
 void	ft_shell_error(char *str1, char *str2)
 {
@@ -43,11 +44,11 @@ int	ft_shell_code(int wstate)
 	int	code;
 
 	code = 0;
-	if ((wstate & 0x7f) == 0)
-		code = ((wstate & 0xff00) >> 8);
-	else if (((signed char)((wstate & 0x7f) + 1) >> 1) > 0)
-		code = ((wstate & 0x7f) + 128);
-	else if ((wstate & 0xff) == 0x7f)
-		code = (((wstate & 0xff00) >> 8) + 128);
+	if (WIFEXITED(wstate))
+		code = WEXITSTATUS(wstate);
+	else if (WIFSIGNALED(wstate))
+		code = (WTERMSIG(wstate) + 128);
+	else if (WIFSTOPPED(wstate))
+		code = (WSTOPSIG(wstate) + 128);
 	return (code);
 }
