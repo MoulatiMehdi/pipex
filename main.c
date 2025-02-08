@@ -6,34 +6,11 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 22:17:17 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/06 19:40:49 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/08 20:04:15 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-int	t_cmd_exec(char *cmd)
-{
-	char	**str;
-	int		status;
-
-	status = 0;
-	str = ft_split(cmd, ARGS_SEPERATOR);
-	execve(str[0], str, NULL);
-	fprintf(stderr, "Fails : %d %s\n", errno, strerror(errno));
-	if (errno == 2)
-	{
-		ft_shell_error("command not found: ", str[0]);
-		status = 127;
-	}
-	else if (errno != 0)
-	{
-		ft_shell_perror(str[0]);
-		status = 126;
-	}
-	ft_split_free(&str);
-	exit(status);
-}
 
 int	t_redirect_new(char *file, t_mode mode)
 {
