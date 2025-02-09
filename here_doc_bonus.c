@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/02 11:51:30 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/08 20:40:03 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/09 21:36:47 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ static char	*ft_heredoc_getline(int fd)
 	ft_putstr_fd(PROMPT_HERE_DOC, 2);
 	while (1)
 	{
-		errno = 0;
 		p = get_next_line(fd);
 		if (errno == ENOMEM)
 			break ;

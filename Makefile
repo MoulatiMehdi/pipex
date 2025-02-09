@@ -1,5 +1,5 @@
 CC = cc 
-CCFLAGS = -Wall -Wextra -Werror
+CCFLAGS = -Wall -Wextra -Werror -fsanitize=address
 
 SRCS_M = cmd.c env.c error.c main.c path.c process.c
 SRCS_B = cmd_bonus.c  env_bonus.c  error_bonus.c  here_doc_bonus.c  main_bonus.c  path_bonus.c  process_bonus.c
@@ -25,8 +25,10 @@ $(LIBFT) :
 	$(CC) $(CCFLAGS) -c $< -o $@
 
 clean : 
+	make clean -C libft --no-print-directory
 	rm -rf $(OBJS_B) $(OBJS_M)
 fclean : clean
+	make fclean -C libft --no-print-directory
 	rm -rf $(NAME)
 
 re : fclean all 

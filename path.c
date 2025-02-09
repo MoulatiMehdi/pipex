@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 16:32:17 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/08 20:15:57 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/09 21:38:43 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int	ft_path_isdir(char *path)
 	test_path = ft_strjoin(path, "/");
 	if (!test_path)
 		return (0);
-	errno = 0;
 	ans = access(test_path, F_OK);
 	free(test_path);
 	return (ans == 0);
