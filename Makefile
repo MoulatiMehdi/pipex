@@ -10,18 +10,16 @@ OBJS_B = $(SRCS_B:.c=.o)
 NAME = pipex
 LIBFT = libft/libft.a
 
-
-
 all : $(NAME) 
 
-bonus : $(OBJS_B)  
-	$(CC) $(CCFLAGS) $^ -lft -Llibft -o $(NAME)	
+bonus : $(OBJS_B) $(LIBFT) pipex_bonus.h 
+	$(CC) $(CCFLAGS) $(OBJS_B) -lft -Llibft -o $(NAME)	
 
-$(NAME) :  $(LIBFT) $(OBJS_M) 	
+$(NAME) :  $(LIBFT) $(OBJS_M) pipex.h
 	$(CC) $(CCFLAGS) $(OBJS_M) -lft -Llibft -o $@	
 
 $(LIBFT) : 
-	make -C libft
+	make -C libft --no-print-directory
 
 %.o : %.c
 	$(CC) $(CCFLAGS) -c $< -o $@
@@ -34,3 +32,4 @@ fclean : clean
 re : fclean all 
 
 .PHONY : re clean fclean all bonus 
+.SECONDARY: $(OBJS_B) $(OBJS_M)
