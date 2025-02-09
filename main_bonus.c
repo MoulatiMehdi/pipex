@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 22:17:17 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/08 20:40:24 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/09 13:45:09 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,30 @@ void	t_args_check(int argc, char **argv)
 	}
 }
 
+t_mode	t_pipex_input(char *argv[], int fds[2])
+{
+	char	*str;
+	t_mode	mode;
+
+	mode = FILE_WRITE_TRUNCT;
+	if (ft_strncmp("here_doc", argv[1], 8) == 0)
+	{
+		str = ft_heredoc(argv[2], STDIN_FILENO);
+		if (pipe(fds) < 0)
+		{
+			free(str);
+			ft_shell_perror("pipe");
+			exit(errno);
+		}
+		ft_putstr_fd(str, fds[1]);
+		free(str);
+		mode = FILE_WRITE_APPEND;
+	}
+	else
+		t_process_first(argv[2], argv[1], fds);
+	return (mode);
+}
+
 int	main(int argc, char *argv[])
 {
 	int		fds[2];
@@ -59,25 +83,10 @@ int	main(int argc, char *argv[])
 	pid_t	pid;
 	int		i;
 	t_mode	mode;
-	char	*str;
 
 	t_args_check(argc, argv);
-	mode = FILE_WRITE_TRUNCT;
+	mode = t_pipex_input(argv, fds);
 	i = 3;
-	if (ft_strncmp("here_doc", argv[1], 8) == 0)
-	{
-		str = ft_heredoc(argv[2], STDIN_FILENO);
-		if (pipe(fds) < 0)
-		{
-			ft_shell_perror("pipe");
-			exit(errno);
-		}
-		ft_putstr_fd(str, fds[1]);
-		mode = FILE_WRITE_APPEND;
-		i = 3;
-	}
-	else
-		t_process_first(argv[2], argv[1], fds);
 	close(fds[1]);
 	read_fd = fds[0];
 	while (i < argc - 2)

@@ -7,14 +7,15 @@ SRCS_B = cmd_bonus.c  env_bonus.c  error_bonus.c  here_doc_bonus.c  main_bonus.c
 OBJS_M = $(SRCS_M:.c=.o)
 OBJS_B = $(SRCS_B:.c=.o)
 
-NAME = pipex 
+NAME = pipex
 LIBFT = libft/libft.a
+
 
 
 all : $(NAME) 
 
 bonus : $(OBJS_B)  
-	$(CC) $(CCFLAGS) $? -lft -Llibft -o $(NAME)	
+	$(CC) $(CCFLAGS) $^ -lft -Llibft -o $(NAME)	
 
 $(NAME) :  $(LIBFT) $(OBJS_M) 	
 	$(CC) $(CCFLAGS) $(OBJS_M) -lft -Llibft -o $@	

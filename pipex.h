@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 22:17:17 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/08 20:54:58 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/09 13:46:05 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef PIPEX_H
@@ -46,6 +46,10 @@ void		t_process_first(char *cmd, char *filename, int pipefd[2]);
 int			ft_path_isdir(char *path);
 char		*ft_path_cmd(char *filename);
 char		*ft_env_get(char *key);
+
+void		ft_shell_error(char *str1, char *str2);
+int			ft_shell_perror(char *str);
+int			ft_shell_code(int wstate);
 
 void		ft_shell_error(char *str1, char *str2);
 int			ft_shell_perror(char *str);
