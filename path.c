@@ -6,13 +6,13 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 16:32:17 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/09 21:38:43 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/10 13:04:00 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-char	*ft_path_join(char *dir, char *filename)
+static char	*ft_path_join(char *dir, char *filename)
 {
 	char	*fullpath;
 
