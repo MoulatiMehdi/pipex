@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 20:08:28 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/09 21:34:39 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/10 11:45:43 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	ft_path_exec(char **strs)
 	}
 	execve(fullpath, strs, environ);
 	status = errno;
-	ft_shell_error(strerror(status), strs[0]);
+	ft_shell_error(strs[0], strerror(status));
 	free(fullpath);
 	return (status);
 }
