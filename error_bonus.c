@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 16:14:09 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/08 20:40:00 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/10 13:00:55 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	ft_shell_perror(char *str)
 	status = errno;
 	if (status == 0 || str == NULL)
 		return (errno);
-	ft_shell_error(strerror(status), str);
+	ft_shell_error(str, strerror(status));
 	return (errno);
 }
 
