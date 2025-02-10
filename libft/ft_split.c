@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 21:23:31 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/10 11:32:41 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/10 12:40:20 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ static char	*ft_split_dup(const char **s, char *charset)
 	char	*str;
 
 	size = 0;
-	while (s[size] && ft_strchr(charset, (*s)[size]) == NULL)
+	while ((*s)[size] && ft_strchr(charset, (*s)[size]) == NULL)
 		size++;
 	str = ft_substr(*s, 0, size);
-	*str += size;
+	*s += size;
 	return (str);
 }
 
@@ -81,11 +81,13 @@ void	ft_split_free(char ***strs)
 char	**ft_split(char const *s, char *charset)
 {
 	char	**strs;
+	size_t	size;
 	size_t	j;
 
 	if (!s || !charset)
 		return (NULL);
-	strs = malloc(sizeof(char *) * (count_strs(s, charset) + 1));
+	size = count_strs(s, charset) + 1;
+	strs = malloc(sizeof(char *) * size);
 	if (!strs)
 		return (NULL);
 	j = 0;
@@ -96,8 +98,9 @@ char	**ft_split(char const *s, char *charset)
 		if (!*s)
 			break ;
 		strs[j] = ft_split_dup(&s, charset);
-		if (!strs[j++])
+		if (!strs[j])
 			return (free_all(strs, j));
+		j++;
 	}
 	if (j == 0)
 		strs[j++] = ft_strdup("");
