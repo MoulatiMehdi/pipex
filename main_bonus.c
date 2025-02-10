@@ -6,7 +6,7 @@
 /*   By: mmoulati <mmoulati@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 22:17:17 by mmoulati          #+#    #+#             */
-/*   Updated: 2025/02/09 13:45:09 by mmoulati         ###   ########.fr       */
+/*   Updated: 2025/02/10 18:04:22 by mmoulati         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	t_args_check(int argc, char **argv)
 		ft_putstr_fd("Usage : ./pipex file cmd1 ... cmd2 file.", 2);
 		exit(1);
 	}
-	if (argc < 6 && ft_strncmp("here_doc", argv[1], 8) == 0)
+	if (argc < 6 && ft_strncmp("here_doc", argv[1], 9) == 0)
 	{
 		ft_putstr_fd("Usage : ./pipex here_doc DELIMITER cmd1 ... cmd2 file.",
 			2);
@@ -58,7 +58,7 @@ t_mode	t_pipex_input(char *argv[], int fds[2])
 	t_mode	mode;
 
 	mode = FILE_WRITE_TRUNCT;
-	if (ft_strncmp("here_doc", argv[1], 8) == 0)
+	if (ft_strncmp("here_doc", argv[1], 9) == 0)
 	{
 		str = ft_heredoc(argv[2], STDIN_FILENO);
 		if (pipe(fds) < 0)
